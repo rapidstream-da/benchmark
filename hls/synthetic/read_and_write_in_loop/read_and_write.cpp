@@ -32,6 +32,7 @@ void top(data_t mem_0[DATA_LEN*LOOP_ITER], data_t mem_1[DATA_LEN*LOOP_ITER])
 #pragma HLS INTERFACE s_axilite port=mem_0 bundle=control
 #pragma HLS INTERFACE s_axilite port=mem_1 bundle=control
 #pragma HLS INTERFACE s_axilite port=return bundle=control
+#pragma HLS DATAFLOW disable_start_propagation
 
     hls::stream<data_t> fifo_1;
     hls::stream<data_t> fifo_2;
