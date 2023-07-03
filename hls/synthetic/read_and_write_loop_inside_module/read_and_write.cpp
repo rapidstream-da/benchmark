@@ -10,7 +10,7 @@ void load(data_t mem[DATA_LEN], hls::stream<data_t>& fifo_1) {
 
 void compute(hls::stream<data_t>& fifo_1, hls::stream<data_t>& fifo_2) {
     #pragma HLS inline off
-    for (int i = 0; i < DATA_LEN; i++) {
+    for (int i = 0; i < DATA_LEN / 2; i++) {
         #pragma HLS pipeline II=1
         data_t tmp = fifo_1.read();
         fifo_2.write(tmp);
