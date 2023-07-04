@@ -1,0 +1,2 @@
+basic load-compute-store pattern
+pass a scalar variable to each dataflow process
