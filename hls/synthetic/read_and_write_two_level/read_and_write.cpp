@@ -25,14 +25,17 @@ void store(data_t mem[DATA_LEN], hls::stream<data_t>& fifo_2) {
     }
 }
 
-void wrapper(hls::stream<data_t>& fifo_1, hls::stream<data_t>& fifo_2) {
+void wrapper(hls::stream<data_t>& fifo_in, hls::stream<data_t>& fifo_out) {
 #pragma HLS DATAFLOW disable_start_propagation
 
     hls::stream<data_t> fifo_3;
+    hls::stream<data_t> fifo_4;
     #pragma HLS STREAM variable=fifo_3 depth=2
+    #pragma HLS STREAM variable=fifo_4 depth=2
 
-    compute(fifo_1, fifo_3);
-    compute(fifo_3, fifo_2);
+    compute(fifo_in, fifo_3);
+    compute(fifo_3, fifo_4);
+    compute(fifo_4, fifo_out);
 }
 
 void top(data_t mem_0[DATA_LEN], data_t mem_1[DATA_LEN])
