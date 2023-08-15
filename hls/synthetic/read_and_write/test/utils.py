@@ -24,7 +24,7 @@ def add_space_before_comments(file_paths: list[str]) -> None:
                               flags=re.MULTILINE)
 
         if file_contents != new_contents:
-            _logger.info("file %s has been modified to avoid \
-                            unrecognized comments", file_path)
+            _logger.info("file %s has been modified to avoid "
+                         "unrecognized comments", file_path)
             with open(file_path, 'w', encoding='utf-8') as file:
                 file.write(new_contents)
