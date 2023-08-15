@@ -92,15 +92,20 @@ async def test(dut: HierarchyObject, deley_count: int = 200) -> None:
 
 def main():
     """Synthesis HLS and run cocotb testbench."""
+    logging.basicConfig(level=logging.INFO)
+
+    _logger.info("Running HLS synthesis...")
     gen_hls = subprocess.run(
-        ["vitis_hls -f ./generate_rtl.tcl\n"],
-        shell=True,
-        check=False
+        ["vitis_hls", "-f", "./generate_rtl.tcl"],
+        check=False,
+        capture_output=True
     )
 
     if gen_hls.returncode != 0:
-        raise RuntimeError(gen_hls.stderr)
+        raise RuntimeError(gen_hls.stdout.decode("utf-8"))
+    _logger.info("HLS synthesis complete")
 
+    _logger.info("Preparing testbench...")
     source_paths = glob.glob("**/syn/verilog/*.v", recursive=True)
 
     # hack: add a space before comment to avoid error.
@@ -108,11 +113,13 @@ def main():
     # Iverilog recognizes wire and //* as a whole and throw an error.
     add_space_before_comments(source_paths)
 
+    _logger.info("Running test...")
     run(
         verilog_sources=source_paths,  # sources
         toplevel="top",  # top level HDL
         module="test"  # name of cocotb test module
     )
+    _logger.info("Test finished")
 
 
 if __name__ == "__main__":
